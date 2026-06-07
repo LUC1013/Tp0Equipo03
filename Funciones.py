@@ -8,7 +8,7 @@ lst_repartidores = []
 lst_tiempo_estimado = []
 lst_prioridades = []
 
-#
+#funcion para mostrar el menu de opciones al usuario y validar la opción ingresada
 def menu(desde, hasta):
     print("1: Registrar nuevo pedido")
     print("2: Eliminar pedido")
@@ -63,7 +63,7 @@ def repartidor_asignado():
     repartidor = input("Ingrese el nombre del repartidor asignado al pedido: ")
     lst_repartidores.append(repartidor)
 
-
+#el usuario ingresa el tiempo estimado de entrega del pedido
 def tiempo_estimado_de_entrega():
     tiempo_estimado = int(input("Ingrese el tiempo estimado de la entrega (Minutos): "))
     while tiempo_estimado < 0:
@@ -71,6 +71,7 @@ def tiempo_estimado_de_entrega():
         tiempo_estimado = int(input("Ingrese el tiempo estimado de la entrega (Minutos): "))
     lst_tiempo_estimado.append(tiempo_estimado)
 
+#el usuario ingresa la prioridad del pedido
 def prioridad_del_pedido():
     print("1: Normal")
     print("2: Alta")
@@ -81,6 +82,7 @@ def prioridad_del_pedido():
         prioridad = int(input("Ingrese la prioridad del pedido: "))
     lst_prioridades.append(prioridad)
 
+#el usuario ingresa los datos para registrar un nuevo pedido
 def registrar_nuevo_pedido():
     identificador_del_pedido()
     monto_total_pedido()
@@ -90,6 +92,7 @@ def registrar_nuevo_pedido():
     tiempo_estimado_de_entrega()
     prioridad_del_pedido()
 
+#el usuario ingresa el identificador del pedido a eliminar, se valida que el identificador exista y se le pide confirmación al usuario para eliminar el pedido
 def eliminar_pedido():
     confirmacion = False
     if len(lst_identificadores) == 0:
@@ -124,6 +127,7 @@ def eliminar_pedido():
                 lst_prioridades.pop(i)
                 print("El pedido", identificador, "fue eliminado exitosamente.")
 
+#el usuario ingresa el identificador del pedido a modificar, se valida que el identificador exista y se le pide al usuario que elija si desea modificar el estado operativo o el repartidor asignado al pedido
 def modificar_estado_o_repartidor():
     if len(lst_identificadores) == 0:
         print("Error, no hay pedidos registrados. No se puede modificar ningún pedido.")   
@@ -149,7 +153,8 @@ def modificar_estado_o_repartidor():
             repartidor_asignado()
             lst_repartidores[i] = lst_repartidores[-1]
             lst_repartidores.pop(-1)
-    
+
+#funcion para ordenar los pedidos por prioridad, en caso de que dos pedidos tengan la misma prioridad, se ordenan por distancia estimada al destino
 def ordenamiento_pedidos():
     for i in range(len(lst_prioridades)-1):
         indice_maximo = i
@@ -168,8 +173,8 @@ def ordenamiento_pedidos():
         lst_estados[i], lst_estados[indice_maximo] = lst_estados[indice_maximo], lst_estados[i]
         lst_repartidores[i], lst_repartidores[indice_maximo] = lst_repartidores[indice_maximo], lst_repartidores[i]
 
+#funcion para mostrar el informe general de pedidos, ordenados por prioridad
 def informe_general():
-    #Muestra informe general de pedidos, ordenados por prioridad
     ordenamiento_pedidos()
     
     if len(lst_identificadores) == 0:
