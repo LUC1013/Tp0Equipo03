@@ -1,57 +1,64 @@
 # Funcion Menu | Mirko Wesner
 
-lst_identificadores = []
-lst_montos = []
-lst_distancias = []
-lst_estados = []
-lst_repartidores = []
-lst_tiempo_estimado = []
-lst_prioridades = []
-
-#funcion para mostrar el menu de opciones al usuario y validar la opción ingresada
 def menu(desde, hasta):
+    """Función que muestra el menú de opciones al usuario y valida la opción ingresada."""
     print("1: Registrar nuevo pedido")
     print("2: Eliminar pedido")
     print("3: Modificar estado o repartidor")
     print("4: Informe general")
     print("5: Salir")
     print("--------------------------------------------\n")
-    opcion = int(input("Ingrese una opción: "))
-    while opcion < desde or opcion > hasta:
+
+    opcion = input("Ingrese una opción: ")
+    #Verificamos que la opcion ingresada sea un numero y ademas debe ser entre 1 y 5
+    while not opcion.isdigit() or int(opcion) < desde or int(opcion) > hasta:
         print("Error, la opción ingresada no es válida. Pruebe nuevamente.")
-        opcion = int(input("Ingrese una opción: "))
-    return opcion
+        opcion = input("Ingrese una opción: ")
+
+    return int(opcion)
+
+
+
+def busqueda_secuencial(lista, objetivo):
+    """
+    Busca un elemento en una lista de forma secuencial.
+    Retorna el índice del elemento si se encuentra, de lo contrario retorna -1.
+    """
+    for i in range(len(lista)):
+        if lista[i] == objetivo:
+            return i
+    return -1
 
 # Funcion identificador del pedido | Francisco Fernandez
-#el usuario ingresa el identificador del pedido
-def identificador_del_pedido():
-    identificador =input("Ingrese el identificador del pedido: ")
+def identificador_del_pedido(lst_identificadores):
+    """Solicita al usuario el identificador del pedido y lo valida."""
+    identificador = input("Ingrese el identificador del pedido: ")
     while len(identificador) < 4 or len(identificador) > 10:
         print("Error, el identificador debe contener entre 4 y 10 caracteres. Pruebe de nuevo.")
         identificador = input("Ingrese el identificador del pedido: ")
     lst_identificadores.append(identificador)
 
-#el usuario ingresa el monto total del pedido
 #Funcion monto total del pedido | Martin Cywiner
-def monto_total_pedido():
+def monto_total_pedido(lst_montos):
+    """Solicita al usuario el monto total del pedido y evita que sea negativo."""
     monto_total = float(input("Ingrese el monto total del pedido: "))
     while monto_total < 0:
         print("Error, el monto total debe ser un número positivo. Intente de nuevo.")
         monto_total = float(input("Ingrese el monto total del pedido: "))
     lst_montos.append(monto_total)
 
-#el usuario ingresa la distancia estimada al destino
 #Funcion distancia estimada al destino | Valentin Spaho 
-def distancia_estimada_al_destino():
+def distancia_estimada_al_destino(lst_distancias):
+    """Solicita al usuario la distancia estimada al destino y verifica que se cumplan las condiciones."""
     distancia_estimada = float(input("Ingrese la distancia estimada al destino (Kilometros): "))
     while distancia_estimada < 0 or distancia_estimada > 20:
         print("Error, la distancia estimada debe ser un número positivo o que no supere los 20 kilómetros. Intente nuevamente.")
         distancia_estimada = float(input("Ingrese la distancia estimada al destino (Kilometros): "))
     lst_distancias.append(distancia_estimada)
     
-#el usuario ingresa el estado operativo del pedido
 #Funcion estado operativo del pedido | Francisco Fernandez
-def estado_operativo():
+def estado_operativo(lst_estados):
+    """Solicita al usuario el estado operativo del pedido."""
     print("1: Preparación")
     print("2: En reparto")
     print("3: Entregado")
@@ -62,24 +69,24 @@ def estado_operativo():
         estado_operativo = int(input("Ingrese el estado operativo del pedido: "))
     lst_estados.append(estado_operativo)
 
-#el usuario ingresa el nombre del repartidor asignado al pedido
 #Funcion repartidor asignado | Valentin Spaho
-def repartidor_asignado():
+def repartidor_asignado(lst_repartidores):
+    """Solicita al usuario el nombre del repartidor asignado al pedido."""
     repartidor = input("Ingrese el nombre del repartidor asignado al pedido: ")
     lst_repartidores.append(repartidor)
 
-#el usuario ingresa el tiempo estimado de entrega del pedido
 #Funcion tiempo estimado de entrega | Francisco Fernandez
-def tiempo_estimado_de_entrega():
+def tiempo_estimado_de_entrega(lst_tiempo_estimado):
+    """Solicita al usuario el tiempo estimado de entrega del pedido y verifica que sea un número positivo."""
     tiempo_estimado = int(input("Ingrese el tiempo estimado de la entrega (Minutos): "))
     while tiempo_estimado < 0:
         print("Error, el tiempo estimado de entrega tiene que ser un número positivo. Pruebe de nuevo.")
         tiempo_estimado = int(input("Ingrese el tiempo estimado de la entrega (Minutos): "))
     lst_tiempo_estimado.append(tiempo_estimado)
 
-#el usuario ingresa la prioridad del pedido
 #Funcion prioridad del pedido | Martin Cywiner
-def prioridad_del_pedido():
+def prioridad_del_pedido(lst_prioridades):
+    """Solicita al usuario la prioridad del pedido."""
     print("1: Normal")
     print("2: Alta")
     print("3: Urgente")
@@ -89,26 +96,26 @@ def prioridad_del_pedido():
         prioridad = int(input("Ingrese la prioridad del pedido: "))
     lst_prioridades.append(prioridad)
 
-#el usuario ingresa los datos para registrar un nuevo pedido
-def registrar_nuevo_pedido():
-    identificador_del_pedido()
-    monto_total_pedido()
-    distancia_estimada_al_destino()
-    estado_operativo()
-    repartidor_asignado()
-    tiempo_estimado_de_entrega()
-    prioridad_del_pedido()
+def registrar_nuevo_pedido(lst_identificadores, lst_montos, lst_distancias, lst_estados, lst_repartidores, lst_tiempo_estimado, lst_prioridades):
+    """Solicita al usuario los datos necesarios para el registro de un nuevo pedido."""
+    identificador_del_pedido(lst_identificadores)
+    monto_total_pedido(lst_montos)
+    distancia_estimada_al_destino(lst_distancias)
+    estado_operativo(lst_estados)
+    repartidor_asignado(lst_repartidores)
+    tiempo_estimado_de_entrega(lst_tiempo_estimado)
+    prioridad_del_pedido(lst_prioridades)
 
-#el usuario ingresa el identificador del pedido a eliminar, se valida que el identificador exista y se le pide confirmación al usuario para eliminar el pedido
 #Funcion eliminar pedido | Lucio Formia
-def eliminar_pedido():
+def eliminar_pedido(lst_identificadores, lst_montos, lst_distancias, lst_estados, lst_repartidores, lst_tiempo_estimado, lst_prioridades):
+    """Solicita al usuario el identificador del pedido a eliminar, valida que exista y pide confirmación para eliminarlo."""
     confirmacion = False
     if len(lst_identificadores) == 0:
         print("Error, no hay pedidos registrados. No se puede eliminar ningún pedido.")
     else:
         print(lst_identificadores)
         identificador = input("Ingrese el identificador del pedido a eliminar: ")
-        while identificador not in lst_identificadores:
+        while busqueda_secuencial(lst_identificadores, identificador) == -1:
             print("Error, el identificador ingresado no es válido. Intente de nuevo.")
             identificador = input("Ingrese el identificador del pedido a eliminar: ")
         
@@ -122,7 +129,7 @@ def eliminar_pedido():
         if opcion == 1:
             confirmacion = True
         if confirmacion == True:
-            i = lst_identificadores.index(identificador)
+            i = busqueda_secuencial(lst_identificadores, identificador)
             if lst_estados[i] != 4:
                 print("Error, no se puede eliminar un pedido que no se encuentra cancelado. Cambie el estado operativo del pedido a cancelado para poder eliminarlo.")
             else:
@@ -135,15 +142,15 @@ def eliminar_pedido():
                 lst_prioridades.pop(i)
                 print("El pedido", identificador, "fue eliminado exitosamente.")
 
-#el usuario ingresa el identificador del pedido a modificar, se valida que el identificador exista y se le pide al usuario que elija si desea modificar el estado operativo o el repartidor asignado al pedido
 #Funcion modificar estado o repartidor | Martin Cywiner 
-def modificar_estado_o_repartidor():
+def modificar_estado_o_repartidor(lst_identificadores, lst_montos, lst_distancias, lst_estados, lst_repartidores, lst_tiempo_estimado, lst_prioridades):
+    """Permite al usuario modificar el estado operativo o el repartidor asignasdo al pedido, validando que el identificador del pedido exista y que la opción ingresada sea válida."""
     if len(lst_identificadores) == 0:
         print("Error, no hay pedidos registrados. No se puede modificar ningún pedido.")   
     else:
         print(lst_identificadores)
         identificador = input("Ingrese el identificador del pedido a modificar: ")
-        while identificador not in lst_identificadores:
+        while busqueda_secuencial(lst_identificadores, identificador) == -1:
             print("Error, el identificador ingresado no es válido. Intente de nuevo.")
             identificador = input("Ingrese el identificador del pedido a modificar: ")
         print("¿Qué desea modificar?")
@@ -153,19 +160,19 @@ def modificar_estado_o_repartidor():
         while opcion < 1 or opcion > 2:
             print("Error, la opción ingresada no es válida. Intente de nuevo.")
             opcion = int(input("Ingrese una opción: "))
-        i = lst_identificadores.index(identificador)
+        i = busqueda_secuencial(lst_identificadores, identificador)
         if opcion == 1:
-            estado_operativo()
+            estado_operativo(lst_estados)
             lst_estados[i] = lst_estados[-1]
             lst_estados.pop(-1)
         if opcion == 2:
-            repartidor_asignado()
+            repartidor_asignado(lst_repartidores)
             lst_repartidores[i] = lst_repartidores[-1]
             lst_repartidores.pop(-1)
 
-#funcion para ordenar los pedidos por prioridad, en caso de que dos pedidos tengan la misma prioridad, se ordenan por distancia estimada al destino
 #Funcion ordenamiento de pedidos | Mirko Wesner
-def ordenamiento_pedidos():
+def ordenamiento_pedidos(lst_identificadores, lst_montos, lst_distancias, lst_estados, lst_repartidores, lst_tiempo_estimado, lst_prioridades):
+    """Ordena los pedidos registrados por prioridad, y en caso de que dos o más pedidos tengan igual prioridad, se los ordena por distancia estimada al destino."""
     for i in range(len(lst_prioridades)-1):
         indice_maximo = i
         for j in range(i+1, len(lst_prioridades)):
@@ -183,11 +190,11 @@ def ordenamiento_pedidos():
         lst_estados[i], lst_estados[indice_maximo] = lst_estados[indice_maximo], lst_estados[i]
         lst_repartidores[i], lst_repartidores[indice_maximo] = lst_repartidores[indice_maximo], lst_repartidores[i]
 
-#funcion para mostrar el informe general de pedidos, ordenados por prioridad
 #funcion informe general | Lucio Formia
-def informe_general():
-    ordenamiento_pedidos()
-    
+def informe_general(lst_identificadores, lst_montos, lst_distancias, lst_estados, lst_repartidores, lst_tiempo_estimado, lst_prioridades):
+    """Muestra un informe general de los pedidos registrados, ordenados por prioridad y mostrando toda la información de cada pedido."""
+    ordenamiento_pedidos(lst_identificadores, lst_montos, lst_distancias, lst_estados, lst_repartidores, lst_tiempo_estimado, lst_prioridades)
+
     if len(lst_identificadores) == 0:
         print("---------------------------------------------")
         print("No hay pedidos registrados.")
